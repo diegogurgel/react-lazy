@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
+import Lazy from './Lazy'
 
 class App extends Component {
+  state = {
+    loadLazyComponent: false,
+    hasError: false
+  }
+  static getDerivedStateFromError(error) {
+    this.setState({hasError: true})
+  }
+
   render() {
+    const { loadLazyComponent, hasError } = this.state
     return (
       <div className="App">
         <header className="App-header">
@@ -11,15 +21,16 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <a
+          <button 
             className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+            onClick={() => this.setState({loadLazyComponent:true})}>
+            Load
+          </button>
+          {loadLazyComponent && <Lazy/>}
+          {hasError && 'Sorry we did something wrong :('}
         </header>
+        
+        
       </div>
     );
   }
